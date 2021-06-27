@@ -51,15 +51,36 @@ class MusicsHandler {
     }
   }
 
-  async getMusicsHandler() {
-    const songs = await this._service.getMusics();
+  async getMusicsHandler(request, h) {
+    try {
+      const songs = await this._service.getMusics();
 
-    return {
-      status: 'success',
-      data: {
-        songs,
-      },
-    };
+      return {
+        status: 'success',
+        data: {
+          songs,
+        },
+      };
+    } catch (error) {
+      if (error instanceof ClientError) {
+        const response = h.response({
+          status: 'fail',
+          message: error.message,
+        });
+
+        response.code(error.statusCode);
+        return response;
+      }
+
+      const response = h.response({
+        status: 'error',
+        message: 'Sorry, there is something wrong with our server.',
+      });
+
+      response.code(500);
+      console.log(error);
+      return response;
+    }
   }
 
   async getMusicByIdHandler(request, h) {

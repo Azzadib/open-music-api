@@ -12,11 +12,10 @@ class MusicsServices {
   async addMusic({ title, year, performer, genre, duration }) {
     const id = `song-${nanoid(16)}`;
     const inserteddAt = new Date().toISOString();
-    const updatedAt = inserteddAt;
     
     const query = {
-      text: 'INSERT INTO musics VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
-      values: [id, title, year, performer, genre, duration, inserteddAt, updatedAt],
+      text: 'INSERT INTO musics VALUES($1, $2, $3, $4, $5, $6, $7, $7) RETURNING id',
+      values: [id, title, year, performer, genre, duration, inserteddAt],
     };
 
     const result = await this._pool.query(query);
@@ -39,7 +38,7 @@ class MusicsServices {
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) throw new NotFoundError('Song not found');
+    if (!result.rowCount) throw new NotFoundError('Song not found');
 
     return result.rows.map(mapDBToModel)[0];
   }
