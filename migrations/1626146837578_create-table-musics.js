@@ -1,5 +1,3 @@
-/* eslint-disable arrow-parens */
-
 exports.up = pgm => {
   pgm.createTable('musics', {
     id: {

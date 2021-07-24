@@ -15,6 +15,7 @@
         "no-unused-vars": "warn",
         "no-trailing-spaces": "off",
         "camelcase": "off",
-        "object-curly-newline": "off"
+        "object-curly-newline": "off",
+        "arrow-parens": "off"
     }
 }
