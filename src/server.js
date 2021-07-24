@@ -1,13 +1,19 @@
 require('dotenv').config();
 
 const Hapi = require('@hapi/hapi');
-const musics = require('./api/musics');
 //* const ClientError = require('./exceptions/ClientError');
+const musics = require('./api/musics');
 const MusicsService = require('./services/postgres/MusicsService');
 const MusicsValidator = require('./validator/musics');
- 
+
+const users = require('./api/users');
+const UsersService = require('./services/postgres/UsersService');
+const UsersValidator = require('./validator/users');
+
 const init = async () => {
   const musicsService = new MusicsService();
+  const usersService = new UsersService();
+
   const server = Hapi.server({
     port: process.env.PORT,
     host: process.env.HOST,
@@ -17,14 +23,23 @@ const init = async () => {
       },
     },
   });
- 
-  await server.register({
-    plugin: musics,
-    options: {
-      service: musicsService,
-      validator: MusicsValidator,
+
+  await server.register([
+    {
+      plugin: musics,
+      options: {
+        service: musicsService,
+        validator: MusicsValidator,
+      },
     },
-  });
+    {
+      plugin: users,
+      options: {
+        service: usersService,
+        validator: UsersValidator,
+      },
+    },
+  ]);
 
   /* //* Check for client error
   server.ext('onPreResponse', (request, h) => {
@@ -42,9 +57,9 @@ const init = async () => {
     //* If there is no client error, continue with previous response
     return response.continue || response;
   }); */
- 
+
   await server.start();
   console.log(`Server runing on port ${server.info.uri}`);
 };
- 
+
 init();

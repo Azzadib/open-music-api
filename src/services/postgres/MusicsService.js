@@ -63,7 +63,7 @@ class MusicsServices {
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) throw new NotFoundError('Failed to delete song. Son id not found');
+    if (!result.rows.length) throw new NotFoundError('Failed to delete song. Song id not found');
   }
 }
 
