@@ -41,7 +41,7 @@ class UsersHandler {
 
       const response = h.response({
         status: 'error',
-        message: 'Sorry, something wrong with our server.',
+        message: 'Sorry, there is something wrong with our server.',
       });
 
       response.code(500);
@@ -77,7 +77,7 @@ class UsersHandler {
  
       const response = h.response({
         status: 'error',
-        message: 'Sorry, something wrong with our server.',
+        message: 'Sorry, there is something wrong with our server.',
       });
 
       response.code(500);
