@@ -20,7 +20,7 @@ class MusicsServices {
 
     const result = await this._pool.query(query);
 
-    if (!result.rows[0].id) throw new InvariantError('Failed to add music');
+    if (!result.rows[0].id) throw new InvariantError('Failed to add song');
 
     return result.rows[0].id;
   }

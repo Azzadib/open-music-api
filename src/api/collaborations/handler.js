@@ -23,7 +23,7 @@ class CollaborationsHandler {
 
       const response = h.response({
         status: 'success',
-        message: 'Kolaborasi berhasil ditambahkan',
+        message: 'Collaboration added successfully',
         data: {
           collaborationId,
         },
@@ -44,7 +44,7 @@ class CollaborationsHandler {
 
       const response = h.response({
         status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
+        message: 'Sorry, there is something wrong with our server',
       });
       
       response.code(500);
@@ -64,7 +64,7 @@ class CollaborationsHandler {
 
       return {
         status: 'success',
-        message: 'Kolaborasi berhasil dihapus',
+        message: 'Collaboration deleted successfully',
       };
     } catch (error) {
       if (error instanceof ClientError) {
@@ -79,8 +79,9 @@ class CollaborationsHandler {
 
       const response = h.response({
         status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
+        message: 'Sorry, there is something wrong with our server',
       });
+      
       response.code(500);
       console.error(error);
       return response;

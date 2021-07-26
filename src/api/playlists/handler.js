@@ -26,7 +26,7 @@ class PlaylistsHandler {
 
       const response = h.response({
         status: 'success',
-        message: 'Playlist berhasil ditambahkan',
+        message: 'Playlist added successfully',
         data: {
           playlistId,
         },
@@ -47,7 +47,7 @@ class PlaylistsHandler {
 
       const response = h.response({
         status: 'error',
-        message: 'Sorry, there is something wrong with our server.',
+        message: 'Sorry, there is something wrong with our server',
       });
 
       response.code(500);
@@ -81,7 +81,7 @@ class PlaylistsHandler {
 
       const response = h.response({
         status: 'error',
-        message: 'Sorry, there is something wrong with our server.',
+        message: 'Sorry, there is something wrong with our server',
       });
 
       response.code(500);
@@ -99,7 +99,7 @@ class PlaylistsHandler {
       await this._service.deletePlaylistById(id, credentialId);
       return {
         status: 'success',
-        message: 'Playlists berhasil dihapus',
+        message: 'Playlists deleted successfully',
       };
     } catch (error) {
       if (error instanceof ClientError) {
@@ -114,7 +114,7 @@ class PlaylistsHandler {
 
       const response = h.response({
         status: 'error',
-        message: 'Sorry, there is something wrong with our server.',
+        message: 'Sorry, there is something wrong with our server',
       });
       
       response.code(500);

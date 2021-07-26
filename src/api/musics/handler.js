@@ -21,7 +21,7 @@ class MusicsHandler {
 
       const response = h.response({
         status: 'success',
-        message: 'Lagu berhasil ditambahkan',
+        message: 'Song added sucessfuly',
         data: {
           songId,
         },
@@ -42,7 +42,7 @@ class MusicsHandler {
 
       const response = h.response({
         status: 'error',
-        message: 'Sorry, there is something wrong with our server.',
+        message: 'Sorry, there is something wrong with our server',
       });
 
       response.code(500);
@@ -74,7 +74,7 @@ class MusicsHandler {
 
       const response = h.response({
         status: 'error',
-        message: 'Sorry, there is something wrong with our server.',
+        message: 'Sorry, there is something wrong with our server',
       });
 
       response.code(500);
@@ -107,7 +107,7 @@ class MusicsHandler {
 
       const response = h.response({
         status: 'error',
-        message: 'Sorry, there is something wrong with our server.',
+        message: 'Sorry, there is something wrong with our server',
       });
 
       response.code(500);
@@ -141,7 +141,7 @@ class MusicsHandler {
 
       const response = h.response({
         status: 'error',
-        message: 'Sorry, there is something wrong with our server.',
+        message: 'Sorry, there is something wrong with our server',
       });
 
       response.code(500);
@@ -157,7 +157,7 @@ class MusicsHandler {
 
       return {
         status: 'success',
-        message: 'lagu berhasil dihapus',
+        message: 'Song deleted successfully',
       };
     } catch (error) {
       if (error instanceof ClientError) {
@@ -172,7 +172,7 @@ class MusicsHandler {
 
       const response = h.response({
         status: 'error',
-        message: 'Sorry, there is something wrong with our server.',
+        message: 'Sorry, there is something wrong with our server',
       });
 
       response.code(500);

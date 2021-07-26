@@ -3,8 +3,8 @@ const ClientError = require('../../exceptions/ClientError');
 class AuthenticationsHandler {
   constructor(authenticationsService, usersService, tokenManager, validator) {
     this._authenticationsService = authenticationsService;
-    this._usersService = usersService;
     this._tokenManager = tokenManager;
+    this._usersService = usersService;
     this._validator = validator;
 
     this.postAuthenticationHandler = this.postAuthenticationHandler.bind(this);
@@ -26,7 +26,7 @@ class AuthenticationsHandler {
  
       const response = h.response({
         status: 'success',
-        message: 'Authentication berhasil ditambahkan',
+        message: 'Authentication added successfully',
         data: {
           accessToken,
           refreshToken,
@@ -48,8 +48,9 @@ class AuthenticationsHandler {
  
       const response = h.response({
         status: 'error',
-        message: 'Sorry, there is something wrong with our server.',
+        message: 'Sorry, there is something wrong with our server',
       });
+
       response.code(500);
       console.error(error);
       return response;
@@ -67,7 +68,7 @@ class AuthenticationsHandler {
       const accessToken = this._tokenManager.generateAccessToken({ id });
       return {
         status: 'success',
-        message: 'Access Token berhasil diperbarui',
+        message: 'Access Token renewed successfully',
         data: {
           accessToken,
         },
@@ -85,7 +86,7 @@ class AuthenticationsHandler {
  
       const response = h.response({
         status: 'error',
-        message: 'Sorry, there is something wrong with our server.',
+        message: 'Sorry, there is something wrong with our server',
       });
 
       response.code(500);
@@ -104,7 +105,7 @@ class AuthenticationsHandler {
  
       return {
         status: 'success',
-        message: 'Refresh token berhasil dihapus',
+        message: 'Refresh token deleted successfully',
       };
     } catch (error) {
       if (error instanceof ClientError) {
@@ -119,7 +120,7 @@ class AuthenticationsHandler {
  
       const response = h.response({
         status: 'error',
-        message: 'Sorry, there is something wrong with our server.',
+        message: 'Sorry, there is something wrong with our server',
       });
 
       response.code(500);

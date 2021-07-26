@@ -17,7 +17,7 @@ class CollaborationsService {
  
     const result = await this._pool.query(query);
  
-    if (!result.rows.length) throw new InvariantError('Kolaborasi gagal ditambahkan');
+    if (!result.rows.length) throw new InvariantError('Failed to add collaboration');
     return result.rows[0].id;
   }
 
@@ -29,7 +29,7 @@ class CollaborationsService {
  
     const result = await this._pool.query(query);
  
-    if (!result.rows.length) throw new InvariantError('Kolaborasi gagal dihapus');
+    if (!result.rows.length) throw new InvariantError('Failed to delete collaboration');
   }
 
   async verifyCollaborator(playlistId, userId) {
@@ -40,7 +40,7 @@ class CollaborationsService {
  
     const result = await this._pool.query(query);
  
-    if (!result.rows.length) throw new InvariantError('Kolaborasi gagal diverifikasi');
+    if (!result.rows.length) throw new InvariantError('Failed to verify collaboration');
   }
 }
 

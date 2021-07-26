@@ -26,11 +26,12 @@ class PlaylistSongsHandler {
 
       const response = h.response({
         status: 'success',
-        message: 'Lagu berhasil ditambahkannnnn',
+        message: 'Song added successfully',
         data: {
           playlistid,
         },
       });
+
       response.code(201);
       return response;
     } catch (error) {
@@ -39,15 +40,16 @@ class PlaylistSongsHandler {
           status: 'fail',
           message: error.message,
         });
+
         response.code(error.statusCode);
         return response;
       }
 
-      // Server ERROR!
       const response = h.response({
         status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
+        message: 'Sorry, there is something wrong with our server',
       });
+
       response.code(500);
       console.error(error);
       return response;
@@ -74,13 +76,14 @@ class PlaylistSongsHandler {
           status: 'fail',
           message: error.message,
         });
+
         response.code(error.statusCode);
         return response;
       }
 
       const response = h.response({
         status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
+        message: 'Sorry, there is something wrong with our server',
       });
       response.code(500);
       console.error(error);
@@ -99,7 +102,7 @@ class PlaylistSongsHandler {
       await this._service.deletePlaylistSong(playlistId, songId);
       return {
         status: 'success',
-        message: 'Lagu berhasil dihapus dari playlist',
+        message: 'Song deleted from playlist',
       };
     } catch (error) {
       if (error instanceof ClientError) {
@@ -107,13 +110,14 @@ class PlaylistSongsHandler {
           status: 'fail',
           message: error.message,
         });
+        
         response.code(error.statusCode);
         return response;
       }
 
       const response = h.response({
         status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
+        message: 'Sorry, there is something wrong with our server',
       });
       response.code(500);
       console.error(error);

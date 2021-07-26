@@ -18,7 +18,7 @@ class PlaylistService {
     };
 
     const result = await this._pool.query(query);
-    if (!result.rows[0].id) throw new InvariantError('Playlist gagal ditambahkan');
+    if (!result.rows[0].id) throw new InvariantError('Failed to create playlist');
 
     return result.rows[0].id;
   }
@@ -31,7 +31,7 @@ class PlaylistService {
 
     const result = await this._pool.query(query);
 
-    if (result.rows.length > 0) throw new InvariantError('Gagal menambahkan playlists. nama playlists sudah digunakan.');
+    if (result.rows.length > 0) throw new InvariantError('Playlist name already exists');
   }
 
   async getPlaylists(owner) {
@@ -57,7 +57,7 @@ class PlaylistService {
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) throw new NotFoundError('Playlists gagal dihapus. Id tidak ditemukan');
+    if (!result.rows.length) throw new NotFoundError('Failed to delete playlist. Playlist id notfound');
   }
 
   async verifyPlaylistOwner(id, owner) {
@@ -68,11 +68,11 @@ class PlaylistService {
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) throw new NotFoundError('Playlists tidak ditemukan');
+    if (!result.rows.length) throw new NotFoundError('Playlist not found');
     
     const playlist = result.rows[0];
 
-    if (playlist.owner !== owner) throw new AuthorizationError('Anda tidak berhak mengakses resource ini');
+    if (playlist.owner !== owner) throw new AuthorizationError('You are not authorized to access this resource');
   }
 }
 
