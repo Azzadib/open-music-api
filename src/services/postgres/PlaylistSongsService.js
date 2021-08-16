@@ -1,14 +1,16 @@
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
 const InvariantError = require('../../exceptions/InvariantError');
+const { mapDBToModel } = require('../../utils');
 const NotFoundError = require('../../exceptions/NotFoundError');
 const AuthorizationError = require('../../exceptions/AuthorizationError');
 const ClientError = require('../../exceptions/ClientError');
 
 class PlaylistSongService {
-  constructor(collaborationsService) {
+  constructor(collaborationsService, cacheService) {
     this._pool = new Pool();
     this._collaborationsService = collaborationsService;
+    this._cacheService = cacheService;
   }
 
   async addSongPlaylist({ playlistId, songId }) {
@@ -22,6 +24,7 @@ class PlaylistSongService {
     const result = await this._pool.query(query);
     if (!result.rows[0].id) throw new InvariantError('Failed to add song to playlist');
 
+    await this._cacheService.delete(`songs:${playlistId}`);
     return result.rows[0].id;
   }
 
@@ -51,14 +54,22 @@ class PlaylistSongService {
   }
 
   async getPlaylistSong(id) {
-    const query = {
-      text: `SELECT musics.id, musics.title, musics.performer FROM playlistsongs, musics
-          WHERE musics.id = playlistsongs.song_id and playlistsongs.playlist_id = $1`,
-      values: [id],
-    };
-
-    const result = await this._pool.query(query);
-    return result.rows;
+    try {
+      const result = await this._cacheService.get(`songs:${id}`);
+      return JSON.parse(result);
+    } catch (error) {
+      const query = {
+        text: `SELECT musics.id, musics.title, musics.performer FROM playlistsongs, musics
+            WHERE musics.id = playlistsongs.song_id and playlistsongs.playlist_id = $1`,
+        values: [id],
+      };
+  
+      const result = await this._pool.query(query);
+      const mappedResult = result.rows.map(mapDBToModel);
+  
+      await this._cacheService.set(`songs:${id}`, JSON.stringify(mappedResult));
+      return mappedResult;
+    }
   }
 
   async deletePlaylistSong(id, songId) {
@@ -68,6 +79,7 @@ class PlaylistSongService {
     };
 
     const result = await this._pool.query(query);
+    await this._cacheService.delete(`songs:${id}`);
 
     if (!result.rows.length) throw new ClientError('Failed to delete song from playlist. Song id not found');
   }
