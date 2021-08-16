@@ -3,6 +3,7 @@ require('dotenv').config();
 //* const ClientError = require('./exceptions/ClientError');
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
+const Inert = require('@hapi/inert');
 const path = require('path');
 
 const musics = require('./api/musics');
@@ -59,6 +60,7 @@ const init = async () => {
 
   await server.register([
     { plugin: Jwt },
+    { plugin: Inert },
   ]);
 
   server.auth.strategy('openmusic_jwt', 'jwt', {
