@@ -1,4 +1,5 @@
 node_modules
+src/api/uploads/file
 npm debug.log
 notes-api-web-server.pem
 .env
