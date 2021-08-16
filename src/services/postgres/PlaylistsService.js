@@ -5,8 +5,9 @@ const InvariantError = require('../../exceptions/InvariantError');
 const NotFoundError = require('../../exceptions/NotFoundError');
 
 class PlaylistService {
-  constructor() {
+  constructor(collaborationsService) {
     this._pool = new Pool();
+    this._collaborationsService = collaborationsService;
   }
 
   async addPlaylist({ name, owner }) {
@@ -45,7 +46,7 @@ class PlaylistService {
     };
 
     const result = await this._pool.query(query);
-    
+
     return result.rows;
   }
 
@@ -69,10 +70,22 @@ class PlaylistService {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) throw new NotFoundError('Playlist not found');
-    
+
     const playlist = result.rows[0];
 
     if (playlist.owner !== owner) throw new AuthorizationError('You are not authorized to access this resource');
+  }
+
+  async verifyPlaylistAccess(playlistId, userId) {
+    try {
+      await this.verifyPlaylistOwner(playlistId, userId);
+    } catch (error) {
+      try {
+        await this._collaborationsService.verifyCollaborator(playlistId, userId);
+      } catch {
+        throw new AuthorizationError('You are not authorized to access this resource');
+      }
+    }
   }
 }
 
